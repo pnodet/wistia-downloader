@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/pnodet/wistia-downloader/issues"
   },
-  "homepage": "https://github.com/pnodet/wistia-downloader#readme"
+  "homepage": "https://github.com/pnodet/wistia-downloader#readme",
+  "dependencies": {
+    "request": "2.88.2"
+  }
 }
