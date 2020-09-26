@@ -1,7 +1,6 @@
 const fs = require("fs");
 
-// TODO for each linl in folder pages do blablabla …
-
+// TODO for each link in folder pages do blablabla …
 var text = fs.readFileSync(
   "/Users/pnodet/Documents/GitHub/wistia-downloader/pages/link1.html",
   "utf8"
@@ -51,8 +50,6 @@ var boaRegex = /https:\/\/(.*)/;
 var httpLink = boaRegex.exec(binLink[1]);
 
 // try to downlaod it via http
-const http = require("http");
-const file = fs.createWriteStream("video"+match[1]+".mp4");
-const request = http.get("http://"+httpLink, function (response) {
-  response.pipe(file);
-});
+//const http = require("http");
+//const file = fs.createWriteStream("video"+match[1]+".mp4");
+//const request = http.get("http://"+httpLink, function (response) { response.pipe(file); });
