@@ -1,19 +1,38 @@
-const fetch = require('isomorphic-fetch');
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
+const fs = require("fs");
 
-(async () => {
-  const response = await fetch(
-    "https://academy.planningdirty.com/courses/roadmap-for-a-career-to-strategy-leadership-live-webinar-london"
-  );
-  const text = await response.text();
-  const dom = await new JSDOM(text);
-  const h1 = dom.window.document.querySelector("h1").textContent;
-  console.log(h1);
+var text = fs.readFileSync(
+  "/Users/pnodet/Documents/GitHub/wistia-downloader/pages/link1.html",
+  "utf8"
+);
 
-  const WistiaClass = dom.window.document.querySelector("div.wistia_embed")
-    .id;
-  console.log(WistiaClass);
+var myRegexp = /wvideo=(..........)/;
+var match = myRegexp.exec(text);
+//console.log(match[1]);
 
-  const 
-})();
+var newLink = "https://fast.wistia.net/embed/iframe/"+match[1]+"?videoFoam=true";
+
+//console.log(newLink);
+
+const scrape = require("website-scraper");
+
+let options = {
+  urls: [newLink],
+  directory: "./videoFiles/file_"+match[1],
+};
+
+scrape(options)
+  .then((result) => {
+    console.log("Website succesfully downloaded");
+  })
+  .catch((err) => {
+    console.log("An error ocurred", err);
+  });
+
+var videoFile = fs.readFileSync(
+  "/Users/pnodet/Documents/GitHub/wistia-downloader/videoFiles/file_" +
+    match[1] +
+    "/index.html",
+  "utf8"
+);
+
+console.log(videoFile);
