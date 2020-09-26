@@ -1,5 +1,6 @@
 const fs = require("fs");
 const scrape = require("website-scraper");
+const open = require("open");
 
 // TODO for each link in folder pages do blablabla …
 var text = fs.readFileSync(
@@ -34,7 +35,7 @@ scrape(options)
     var binLink = binRegex.exec(videoFile);
 
     // print out the link
-    console.log(binLink[1]);
+    open(binLink[1]);
   })
   .catch((err) => {
     console.log("An error ocurred", err);
