@@ -17,8 +17,7 @@
   },
   "homepage": "https://github.com/pnodet/wistia-downloader#readme",
   "dependencies": {
-    "es6-promise": "4.2.8",
-    "jsdom": "16.4.0",
+    "fs": "0.0.1-security",
     "open": "7.2.1",
     "request": "2.88.2",
     "website-scraper": "4.2.3"
