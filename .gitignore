@@ -120,5 +120,6 @@ dist
 videos/
 pages/
 videoFiles/
+temp/
 
 .DS_Store
