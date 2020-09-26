@@ -30,13 +30,17 @@ scrape(options)
     // regex the link in the page
     var binRegex = /url":"([\s\S]*?)","/;
     var binLink = binRegex.exec(videoFile);
-    let stringLink = binLink[1].toString();
-    console.log(stringLink);
     
+    var boaRegex = /https:\/\/(.*)/;
+    var httpLink = boaRegex.exec(binLink[1]);
+    var stringLink = "http://"+httpLink[1].toString();
+    console.log(stringLink);
+
     const file = fs.createWriteStream(match[1] + ".mp4");
     const request = http.get(stringLink, function (response) {
       response.pipe(file);
     });
+
   })
   .catch((err) => {
     console.log("An error ocurred", err);
