@@ -1,11 +1,11 @@
 const fs = require("fs");
-const scrape = require("website-scraper");
 const http = require("http");
+const scrape = require("website-scraper");
 
+var readline = require("readline-sync");
+var text = readline.question("Paste your link and press enter : ");
 
-// TODO for each link in folder pages do blablabla …
-
-var text = fs.readFileSync("./pages/00.html", "utf8");
+//var text = fs.readFileSync("./pages/00.html", "utf8");
 
 var myRegexp = /wvideo=([\s\S]*?)"></;
 var match = myRegexp.exec(text);
@@ -35,7 +35,8 @@ scrape(options)
     var httpLink = boaRegex.exec(binLink[1]);
     var stringLink = "http://"+httpLink[1].toString();
     console.log(stringLink);
-
+    
+    // download the video
     const file = fs.createWriteStream(match[1] + ".mp4");
     const request = http.get(stringLink, function (response) {
       response.pipe(file);

@@ -1,51 +1,72 @@
+const { match } = require("assert");
 const fs = require("fs");
-const http = require("http")
+const http = require("http");
 const scrape = require("website-scraper");
 
 var files = fs.readdirSync("./pages/");
-console.log(files);
 
-for (i=0; i < files.length ; i++) {
-  var text = fs.readFileSync(
-    "./pages/"+files[i],
-    "utf8"
-  );
-  var myRegexp = /wvideo=([\s\S]*?)"></;
-  var match = myRegexp.exec(text);
-  console.log(match[1]);
+function getMatch(index) {
+  return new Promise((resolve, reject) => {
+    var text = fs.readFileSync("./pages/" + files[index], "utf8", () => {});
+    var myRegexp = /wvideo=([\s\S]*?)"></;
+    var match = myRegexp.exec(text);
+    console.log(match[1]);
+    return resolve(match[1]);
+  });
+}
 
-  var newLink =
-    "https://fast.wistia.net/embed/iframe/" + match[1] + "?videoFoam=true";
+function getOptions(myMatch) {
+  return new Promise((resolve, reject) => {
+    var newLink =
+      "https://fast.wistia.net/embed/iframe/" + myMatch + "?videoFoam=true";
+    var options = {
+      urls: [newLink],
+      directory: "./videoFiles/file_" + myMatch,
+    };
+    console.log(options);
+    return resolve(options);
+  });
+}
 
-  var options = {
-    urls: [newLink],
-    directory: "./videoFiles/file_" + match[1],
-  };
-
-  scrape(options)
+function getVideo(params, options) {
+  scrape(params, options)
     .then((result) => {
-      console.log("Website " + match[1] + " succesfully downloaded");
+      console.log("Website succesfully downloaded");
 
-      var videoFile = fs.readFileSync(
-        "./videoFiles/file_" +
-          match[1] +
-          "/index.html",
-        "utf8"
+      var videoFile = fs.readFile(
+        "./videoFiles/file_" + params + "/index.html",
+        "utf8",
+        () => {}
       );
 
       // regex the link in the page
       var binRegex = /url":"([\s\S]*?)","/;
       var binLink = binRegex.exec(videoFile);
 
-      // print out the link
-      console.log(binLink[1]);
+      var boaRegex = /https:\/\/(.*)/;
+      var httpLink = boaRegex.exec(binLink[1]);
+      var stringLink = "http://" + httpLink[1].toString();
+      console.log(stringLink);
 
-      const file = fs.createWriteStream("file.mp4");
-      const request = http.get(binLink[1], function (response) {
+      const file = fs.createWriteStream(params + ".mp4", () => {});
+      const request = http.get(stringLink, function (response) {
         response.pipe(file);
       });
     })
     .catch((err) => {
       console.log("An error ocurred", err);
-  });
+    });
+}
+
+for (i = 0; i < files.length; i++) {
+  getMatch(i)
+    .then( alpha => {
+      getOptions(alpha).then((beta) => {
+        getVideo(alpha, beta);
+      });
+    })
+        
+    .catch((err) => {
+      console.log("An error ocurred", err);
+    });
 }
