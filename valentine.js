@@ -7,10 +7,11 @@ var inputFilePath = readline.question("Input file path : ");
 
 fs.createReadStream(inputFilePath)
   .pipe(csv())
-  .on("data", function (data) {
+  .on("data", function (row) {
     try {
       //perform the operation
-      opn(data.URL);
+      console.log(row.URL);
+      opn(row.URL, { app: "microsoft-edge" });
     } catch (err) {
       console.log(err);
     }

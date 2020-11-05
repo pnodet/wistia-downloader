@@ -19,6 +19,7 @@
   "dependencies": {
     "csv-parser": "2.3.3",
     "download": "8.0.0",
+    "event-stream": "4.0.1",
     "fs": "0.0.1-security",
     "js-file-downloader": "1.1.11",
     "node-downloader-helper": "1.0.14",
