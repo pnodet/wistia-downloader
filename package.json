@@ -1,32 +1,34 @@
 {
-  "name": "wistia-downloader",
-  "version": "1.0.0",
-  "description": "Download an embbed wistia video",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pnodet/wistia-downloader.git"
-  },
-  "author": "Paul Nodet <paul.nodet@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/pnodet/wistia-downloader/issues"
-  },
-  "homepage": "https://github.com/pnodet/wistia-downloader#readme",
-  "dependencies": {
-    "csv-parser": "2.3.3",
-    "download": "8.0.0",
-    "event-stream": "4.0.1",
-    "fs": "0.0.1-security",
-    "js-file-downloader": "1.1.11",
-    "node-downloader-helper": "1.0.14",
-    "open": "7.2.1",
-    "opn": "6.0.0",
-    "readline-sync": "1.4.10",
-    "request": "2.88.2",
-    "website-scraper": "4.2.3"
-  }
+	"name": "wistia-downloader",
+	"version": "1.0.0",
+	"description": "Download an embbed wistia video",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"lint": "xo --fix",
+		"test": "xo"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/pnodet/wistia-downloader.git"
+	},
+	"author": "Paul Nodet <paul.nodet@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/pnodet/wistia-downloader/issues"
+	},
+	"homepage": "https://github.com/pnodet/wistia-downloader#readme",
+	"dependencies": {
+		"csv-parser": "2.3.3",
+		"download": "8.0.0",
+		"event-stream": "4.0.1",
+		"fs": "0.0.1-security",
+		"js-file-downloader": "1.1.11",
+		"node-downloader-helper": "1.0.14",
+		"open": "7.2.1",
+		"opn": "6.0.0",
+		"readline-sync": "1.4.10",
+		"request": "2.88.2",
+		"website-scraper": "4.2.3"
+	}
 }
