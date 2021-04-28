@@ -30,5 +30,17 @@
 		"readline-sync": "1.4.10",
 		"request": "2.88.2",
 		"website-scraper": "4.2.3"
+	},
+	"devDependencies": {
+		"xo": "^0.44.0"
+	},
+	"xo": {
+		"singleQuote": true,
+		"prettier": true
+	},
+	"prettier": {
+		"trailingComma": "all",
+		"singleQuote": true,
+		"bracketSpacing": false
 	}
 }
