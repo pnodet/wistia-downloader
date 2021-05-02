@@ -3,14 +3,14 @@ import { get } from "http";
 import scrape from "website-scraper";
 
 import { question } from "readline-sync";
-var text = question("Paste your link and press enter : ");
+let text = question("Paste your link and press enter : ");
 
-//var text = fs.readFileSync("./pages/00.html", "utf8");
+//let text = fs.readFileSync("./pages/00.html", "utf8");
 
-var myRegexp = /wvideo=([\s\S]*?)"></;
-var match = myRegexp.exec(text);
+let myRegexp = /wvideo=([\s\S]*?)"></;
+let match = myRegexp.exec(text);
 
-var newLink =
+let newLink =
   "https://fast.wistia.net/embed/iframe/" + match[1] + "?videoFoam=true";
 
 let options = {
@@ -22,18 +22,18 @@ scrape(options)
   .then((result) => {
     console.log("Website succesfully downloaded");
 
-    var videoFile = readFileSync(
+    let videoFile = readFileSync(
       "./videoFiles/file_" + match[1] + "/index.html",
       "utf8"
     );
 
     // regex the link in the page
-    var binRegex = /url":"([\s\S]*?)","/;
-    var binLink = binRegex.exec(videoFile);
+    let binRegex = /url":"([\s\S]*?)","/;
+    let binLink = binRegex.exec(videoFile);
 
-    var boaRegex = /https:\/\/(.*)/;
-    var httpLink = boaRegex.exec(binLink[1]);
-    var stringLink = "http://"+httpLink[1].toString();
+    let boaRegex = /https:\/\/(.*)/;
+    let httpLink = boaRegex.exec(binLink[1]);
+    let stringLink = "http://"+httpLink[1].toString();
     console.log(stringLink);
 
     // download the video
