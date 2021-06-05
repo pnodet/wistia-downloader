@@ -1,4 +1,4 @@
-import {readFileSync, createWriteStream} from 'fs';
+import {readFileSync, createWriteStream} from 'node:fs';
 import {get} from 'http';
 import scrape from 'website-scraper';
 import {question} from 'readline-sync';
