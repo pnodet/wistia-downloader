@@ -1,11 +1,9 @@
 import {readFileSync, createWriteStream} from 'node:fs';
-import {get} from 'http';
+import {get} from 'node:http';
 import scrape from 'website-scraper';
 import {question} from 'readline-sync';
 
 const text = question('Paste your link and press enter : ');
-
-//let text = fs.readFileSync("./pages/00.html", "utf8");
 
 const myRegexp = /wvideo=([\s\S]*?)"></;
 const match = myRegexp.exec(text);
@@ -18,30 +16,29 @@ const options = {
 	directory: './videoFiles/file_' + match[1],
 };
 
-scrape(options)
-	.then((result) => {
-		console.log('Website succesfully downloaded');
+const main = async () => {
+	await scrape(options);
+	console.log('Website succesfully downloaded');
 
-		const videoFile = readFileSync(
-			'./videoFiles/file_' + match[1] + '/index.html',
-			'utf8',
-		);
+	const videoFile = readFileSync(
+		'./videoFiles/file_' + match[1] + '/index.html',
+		'utf8',
+	);
 
-		// regex the link in the page
-		const binRegex = /url":"([\s\S]*?)","/;
-		const binLink = binRegex.exec(videoFile);
+	// Regex the link in the page
+	const binRegex = /url":"([\s\S]*?)","/;
+	const binLink = binRegex.exec(videoFile);
 
-		const boaRegex = /https:\/\/(.*)/;
-		const httpLink = boaRegex.exec(binLink[1]);
-		const stringLink = 'http://' + httpLink[1].toString();
-		console.log(stringLink);
+	const boaRegex = /https:\/\/(.*)/;
+	const httpLink = boaRegex.exec(binLink[1]);
+	const stringLink = 'http://' + httpLink[1].toString();
+	console.log(stringLink);
 
-		// download the video
-		const file = createWriteStream(match[1] + '.mp4');
-		const request = get(stringLink, function (response) {
-			response.pipe(file);
-		});
-	})
-	.catch((err) => {
-		console.log('An error ocurred', err);
+	// Download the video
+	const file = createWriteStream(match[1] + '.mp4');
+	get(stringLink, (response) => {
+		response.pipe(file);
 	});
+};
+
+main();
