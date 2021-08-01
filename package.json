@@ -19,8 +19,8 @@
 	},
 	"homepage": "https://github.com/pnodet/wistia-downloader#readme",
 	"dependencies": {
-		"website-scraper": "4.2.3",
-		"readline-sync": "1.4.10"
+		"website-scraper": "^4.2.3",
+		"readline-sync": "^1.4.10"
 	},
 	"devDependencies": {
 		"xo": "^0.44.0"
