@@ -1,9 +1,12 @@
 {
 	"name": "wistia-downloader",
-	"version": "1.0.0",
+	"version": "0.0.0",
 	"description": "Download an embbed wistia video",
 	"main": "index.js",
 	"type": "module",
+	"files": [
+		"cli.js"
+	],
 	"scripts": {
 		"lint": "xo --fix",
 		"test": "xo"
@@ -19,8 +22,9 @@
 	},
 	"homepage": "https://github.com/pnodet/wistia-downloader#readme",
 	"dependencies": {
-		"website-scraper": "^4.2.3",
-		"readline-sync": "^1.4.10"
+		"meow": "^10.1.1",
+		"readline-sync": "^1.4.10",
+		"website-scraper": "^4.2.3"
 	},
 	"devDependencies": {
 		"xo": "^0.44.0"
