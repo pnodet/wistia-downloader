@@ -3,6 +3,7 @@ import {get} from 'node:http';
 import scrape from 'website-scraper';
 import {question} from 'readline-sync';
 
+// TODO: add option to import a file where each line is a link ?
 const text = question('Paste your link and press enter : ');
 
 const myRegexp = /wvideo=([\s\S]*?)"></;
