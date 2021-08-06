@@ -4,6 +4,12 @@
 	"description": "Download an embbed wistia video",
 	"main": "index.js",
 	"type": "module",
+	"bin": {
+		"wistia-downloader": "./cli.js"
+	},
+	"engines": {
+		"node": ">=12"
+	},
 	"files": [
 		"cli.js"
 	],
@@ -22,6 +28,7 @@
 	},
 	"homepage": "https://github.com/pnodet/wistia-downloader#readme",
 	"dependencies": {
+		"chalk": "^4.1.2",
 		"meow": "^10.1.1",
 		"readline-sync": "^1.4.10",
 		"website-scraper": "^4.2.3"
