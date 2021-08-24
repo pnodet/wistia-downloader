@@ -44,5 +44,17 @@
 		"trailingComma": "all",
 		"singleQuote": true,
 		"bracketSpacing": false
-	}
+	},
+	"keywords": [
+		"cli-app",
+		"cli",
+		"app",
+		"npm",
+		"package",
+		"organization",
+		"pkg",
+		"wistia",
+		"downloader",
+		"videos"
+	]
 }
