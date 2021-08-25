@@ -30,10 +30,12 @@
 	"dependencies": {
 		"chalk": "^4.1.2",
 		"meow": "^10.1.1",
+		"ora": "^6.0.1",
 		"readline-sync": "^1.4.10",
 		"website-scraper": "^4.2.3"
 	},
 	"devDependencies": {
+		"ava": "^3.15.0",
 		"xo": "^0.44.0"
 	},
 	"xo": {
