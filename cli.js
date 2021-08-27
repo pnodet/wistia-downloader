@@ -8,22 +8,20 @@ import {question} from 'readline-sync';
 const cli = meow(
 	`
 	Usage
-	  $ get-emails <file>
-	  $ cat <file> | get-emails
-	Example
-	  $ get-emails file.txt
-	  sindresorhus@gmail.com
-	  unicorn@rainbow.com
+	Right click on a wistia video and hit "Copy Link and Thumbnail"
+	  $ wistia-downloader <url>
 `,
 	{
 		importMeta: import.meta,
 	},
 );
-
-const text = question('Paste your link and press enter : ');
+let {input} = cli;
+if (!input) {
+	input = question('Paste your link and press enter : ');
+}
 
 const myRegexp = /wvideo=([\s\S]*?)"></;
-const match = myRegexp.exec(text);
+const match = myRegexp.exec(input);
 
 const newLink =
 	'https://fast.wistia.net/embed/iframe/' + match[1] + '?videoFoam=true';
