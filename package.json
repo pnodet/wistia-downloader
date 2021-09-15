@@ -1,6 +1,6 @@
 {
 	"name": "wistia-downloader",
-	"version": "0.2.0",
+	"version": "1.0.0",
 	"description": "Download an embbed wistia video",
 	"main": "index.js",
 	"type": "module",
