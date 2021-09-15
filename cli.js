@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-/* eslint-disable no-warning-comments */
-import {readFileSync, createWriteStream, access, constants} from 'node:fs';
+import {existsSync, readFileSync, createWriteStream, rmSync} from 'node:fs';
+import {promisify} from 'node:util';
 import {get} from 'node:http';
 import process from 'node:process';
-import {finished} from 'node:stream';
+import {pipeline, finished} from 'node:stream';
 import meow from 'meow';
 import chalk from 'chalk';
 import ora from 'ora';
@@ -13,25 +13,23 @@ import logSymbols from 'log-symbols';
 const log = (message, type) => {
 	switch (type) {
 		case 'success':
-			console.log(`${logSymbols.success} ${chalk.bold.green(message)}`);
+			console.log(`${logSymbols.success} ${message}`);
 			break;
 
 		case 'error':
-			console.log(`${logSymbols.error} ${chalk.bold.red(message)}`);
+			console.log(`${logSymbols.error} ${chalk.red(message)}`);
 			break;
 
 		default:
-			console.log(`${logSymbols.info} ${chalk.bold(message)}`);
+			console.log(`${logSymbols.info} ${message}`);
 			break;
 	}
 };
 
 const cli = meow(
-	`
-	Usage
-	Right click on a wistia video and hit "Copy Link and Thumbnail"
-	  $ wistia-downloader <url>
-`,
+	`Usage
+	Right click on a wistia video and hit "Copy Link and Thumbnail".
+	  $ wistia-downloader 'https://...'`,
 	{
 		importMeta: import.meta,
 	},
@@ -44,30 +42,31 @@ if (input.length === 0) {
 	process.exit(1);
 }
 
-const myRegexp = /wvideo=([\s\S]*?)"></;
-const match = myRegexp.exec(input);
-
-const videoID = match[1];
+const videoID = /wvideo=([\s\S]*?)"></.exec(input)[1];
 const videoUrl = `https://fast.wistia.net/embed/iframe/${videoID}?videoFoam=true`;
 const directory = `./videoFiles/file_${videoID}`;
 
 log(`Retrieving video ${videoID}`, 'success');
 
-// FIXME:
 try {
-	log('Checking directory...');
-	access(directory, constants.R_OK | constants.W_OK);
-	log('can read/write');
-} catch {
-	log('no access!', 'error');
+	if (existsSync(directory)) {
+		rmSync(directory, {recursive: true});
+	}
+} catch (error) {
+	log(error, 'error');
+	process.exit(1);
 }
 
+const options = {
+	urls: [videoUrl],
+	directory,
+};
+
+const finishedStream = promisify(finished);
+let spinner;
+
 (async () => {
-	const options = {
-		urls: [videoUrl],
-		directory,
-	};
-	let spinner = ora(`Downloading website...`).start();
+	spinner = ora(`Downloading website...`).start();
 	await scrape(options);
 	spinner.succeed(`Website succesfully downloaded`);
 
@@ -84,18 +83,22 @@ try {
 	// Download the video
 	spinner = ora(`Downloading video...`).start();
 	const file = createWriteStream(`${videoID}.mp4`);
+
 	get(stringLink, (response) => {
-		response.pipe(file);
+		pipeline(response, file, (error) => {
+			if (error) console.error('Pipeline failed.', error);
+		});
 	});
 
-	finished(file, (error) => {
-		if (error) {
-			spinner.warn('Stream failed.');
-			log(error, 'error');
-		} else {
-			spinner.succeed(`Video succesfully downloaded`);
-		}
+	await finishedStream(file);
+	spinner.succeed(`Video succesfully downloaded`);
+
+	spinner = ora(`Removing website files...`).start();
+	rmSync(directory, {recursive: true}, () => {
+		log('done');
 	});
+	spinner.succeed(`Website files succesfully removed`);
+	log(`Video availabe here: ${import.meta.url}/${videoID}.mp4`, 'success');
 })().catch((error) => {
 	log(error, 'error');
 	process.exit(1);

@@ -1,17 +1,13 @@
 # wistia-downloader
-
-### Clone the repo
+>Download a wistia video
+## Install
 
 ```
-git clone https://github.com/pnxdxt/wistia-downloader.git
-```
-
-### Install the dependencies
-```
-npm install
+$ npm install --global wistia-downloader
 ```
 
-### Use it
+## Usage
 ```
-node index.js
+Right click on a wistia video and hit "Copy Link and Thumbnail".
+wistia-downloader 'https://...'
 ```
