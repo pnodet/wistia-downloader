@@ -7,7 +7,9 @@ $ npm install --global wistia-downloader
 ```
 
 ## Usage
-```
+
 Right click on a wistia video and hit "Copy Link and Thumbnail".
-wistia-downloader 'https://...'
+
+```
+$ wistia-downloader 'https://...'
 ```

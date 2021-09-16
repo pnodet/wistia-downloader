@@ -1,5 +1,12 @@
 #!/usr/bin/env node
-import {existsSync, readFileSync, createWriteStream, rmSync} from 'node:fs';
+import {
+	existsSync,
+	accessSync,
+	readFileSync,
+	createWriteStream,
+	rmSync,
+	constants,
+} from 'node:fs';
 import {promisify} from 'node:util';
 import {get} from 'node:http';
 import process from 'node:process';
@@ -48,6 +55,16 @@ const directory = `./videoFiles/file_${videoID}`;
 
 log(`Retrieving video ${videoID}`, 'success');
 
+let spinner = ora(`Checking directory...`).start();
+
+try {
+	accessSync(`./videoFiles`, constants.R_OK | constants.W_OK);
+} catch (error) {
+	log('no access!', 'error');
+	log(error, 'error');
+	process.exit(1);
+}
+
 try {
 	if (existsSync(directory)) {
 		rmSync(directory, {recursive: true});
@@ -57,13 +74,14 @@ try {
 	process.exit(1);
 }
 
+spinner.succeed(`Can read/write in the directory`);
+
 const options = {
 	urls: [videoUrl],
 	directory,
 };
 
 const finishedStream = promisify(finished);
-let spinner;
 
 (async () => {
 	spinner = ora(`Downloading website...`).start();
