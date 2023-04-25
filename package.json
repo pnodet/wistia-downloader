@@ -37,7 +37,7 @@
 	},
 	"devDependencies": {
 		"ava": "^5.2.0",
-		"xo": "^0.44.0"
+		"xo": "^0.54.1"
 	},
 	"xo": {
 		"singleQuote": true,
